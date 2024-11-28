@@ -11,7 +11,7 @@ function Square({ value, onSquareClick }) {
 
 function Board({ xIsNext, squares, onPlay }) {
   function handleClick(i) {
-    if (calculateWinner(squares) || squares[i]) {
+    if (calculateWinnerOrDraw(squares) || squares[i]) {
       return;
     }
     const nextSquares = squares.slice();
@@ -23,10 +23,12 @@ function Board({ xIsNext, squares, onPlay }) {
     onPlay(nextSquares);
   }
 
-  const winner = calculateWinner(squares);
+  const winnerOrDraw = calculateWinnerOrDraw(squares);
   let status;
-  if (winner) {
-    status = 'Winner: ' + winner;
+  if (winnerOrDraw === 'X' || winnerOrDraw === 'O') {
+    status = 'Winner: ' + winnerOrDraw;
+  } else if (winnerOrDraw === 'In a draw') {
+    status = 'This tic-tac-toe game ended in a draw.';
   } else {
     status = 'Next player: ' + (xIsNext ? 'X' : 'O');
   }
@@ -97,7 +99,7 @@ export default function Game() {
   );
 }
 
-function calculateWinner(squares) {
+function calculateWinnerOrDraw(squares) {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -114,5 +116,18 @@ function calculateWinner(squares) {
       return squares[a];
     }
   }
-  return null;
+
+  let filled = true;
+  for (let i = 0; i < squares.length; i++) {
+    if (squares[i] === null) {
+      filled = false;
+      break;
+    }
+  }
+
+  if (filled) {
+    return "In a draw";
+  } else {
+    return null;
+  }
 }

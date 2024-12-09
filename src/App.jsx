@@ -28,7 +28,7 @@ function Board({ xIsNext, squares, onPlay }) {
   if (winnerOrDraw === 'X' || winnerOrDraw === 'O') {
     status = 'Winner: ' + winnerOrDraw;
   } else if (winnerOrDraw === 'In a draw') {
-    status = 'This tic-tac-toe game ended in a draw.';
+    status = 'Result: in a draw.';
   } else {
     status = 'Next player: ' + (xIsNext ? 'X' : 'O');
   }
